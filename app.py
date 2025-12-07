@@ -10,7 +10,7 @@ import dash_bootstrap_components as dbc
 
 # Load data
 print("Loading data...")
-url = 'https://media.githubusercontent.com/media/madpeyton/mlb-statcast-data/refs/heads/main/2024_optimized_mapped.csv'
+url = 'https://github.iu.edu/mlonis/mlb-statcast-data/blob/51ad24c033d5225163fe3bdaeab779f7ab20b20b/2024_optimized_mapped.csv'
 df_optimized = pd.read_csv(url)
 
 # Ensure datetime type
