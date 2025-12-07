@@ -11,11 +11,24 @@ import dash_bootstrap_components as dbc
 # Load data
 print("Loading data...")
 url = 'https://raw.githubusercontent.com/madpeyton/mlb-statcast-data/main/2024_optimized_mapped.csv'
-df_optimized = pd.read_csv(url)
+
+# Read CSV with proper handling
+df_optimized = pd.read_csv(url, low_memory=False)
+
+# Print debug info
+print(f"Loaded {len(df_optimized)} rows")
+print(f"Columns: {list(df_optimized.columns)[:10]}")  # First 10 columns
+
+# Clean column names (remove any whitespace)
+df_optimized.columns = df_optimized.columns.str.strip()
 
 # Ensure datetime type
-if df_optimized['game_date'].dtype != 'datetime64[ns]':
-    df_optimized['game_date'] = pd.to_datetime(df_optimized['game_date'])
+if 'game_date' in df_optimized.columns:
+    if df_optimized['game_date'].dtype != 'datetime64[ns]':
+        print("Converting game_date to datetime...")
+        df_optimized['game_date'] = pd.to_datetime(df_optimized['game_date'], errors='coerce')
+else:
+    raise ValueError("game_date column not found!")
 
 # Extract metadata
 min_date = df_optimized['game_date'].min()
